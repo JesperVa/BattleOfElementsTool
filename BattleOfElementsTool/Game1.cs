@@ -17,6 +17,7 @@ namespace BattleOfElementsTool
         private const int SCREENWIDTH = 1280;
         private const int SCREENHEIGHT = 720;
         private const int SCALE = 10;
+        private const int CAMERASPEED = 3;
 
 
         List<GameObject> platformList;
@@ -102,19 +103,19 @@ namespace BattleOfElementsTool
 
             if (state.IsKeyDown(Keys.Left))
             {
-                Camera.Move(new Vector2(1, 0));
+                Camera.Move(new Vector2(1, 0) * CAMERASPEED);
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                Camera.Move(new Vector2(-1, 0));
+                Camera.Move(new Vector2(-1, 0) * CAMERASPEED);
             }
             if (state.IsKeyDown(Keys.Up))
             {
-                Camera.Move(new Vector2(0, 1));
+                Camera.Move(new Vector2(0, 1) * CAMERASPEED);
             }
             if (state.IsKeyDown(Keys.Down))
             {
-                Camera.Move(new Vector2(0, -1));
+                Camera.Move(new Vector2(0, -1) * CAMERASPEED);
             }
 
             base.Update(gameTime);
