@@ -12,12 +12,16 @@ namespace BattleOfElementsTool
     /// </summary>
     public class Game1 : Game
     {
-        private readonly string FILEPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\Game7.txt";
+        
+        private readonly string FILEPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\Game9.txt";
+
+        //Better to read out of %appdata%
+        //private readonly string FILEPATH = @"E:\Spelmotordriven\BattleOfElementsTool\BattleOfElementsTool\Content\MatchHistory\Game10.txt";
 
         private const int SCREENWIDTH = 1280;
         private const int SCREENHEIGHT = 720;
         private const int SCALE = 10;
-        private const int CAMERASPEED = 3;
+        private const int CAMERASPEED = 10;
 
 
         List<GameObject> platformList;
@@ -26,6 +30,7 @@ namespace BattleOfElementsTool
         SpriteBatch spriteBatch;
         Linedrawer lineDrawer;
         List<Vector2>[] positions;
+        SpriteFont font;
         Color[] colors = new Color[4];
         public static Texture2D CircleTexture;
         public static Texture2D PixelTexture;
@@ -51,12 +56,14 @@ namespace BattleOfElementsTool
             PixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             CircleTexture = Content.Load<Texture2D>("Circle");
             RectangleTexture = Content.Load<Texture2D>("Rectangle");
+            font = Content.Load<SpriteFont>("SpriteFont");
             
             colors[0] = Color.Red;
             colors[1] = Color.Orange;
             colors[2] = Color.Blue;
             colors[3] = Color.LightBlue;
             Camera = new Camera2D();
+            Camera.Position = new Vector2(690, 340);
 
             graphics.PreferredBackBufferHeight = SCREENHEIGHT;
             graphics.PreferredBackBufferWidth = SCREENWIDTH;
@@ -132,10 +139,13 @@ namespace BattleOfElementsTool
             var screenScale = GetScreenScale();
             var viewMatrix = Camera.GetTransform();
 
+
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied,
                                        null, null, null, null, viewMatrix * Matrix.CreateScale(screenScale));
 
             lineDrawer.Draw(spriteBatch);
+
+            
 
             foreach (GameObject go in platformList)
             {
@@ -143,6 +153,12 @@ namespace BattleOfElementsTool
             }
 
             spriteBatch.End();
+
+            spriteBatch.Begin();
+            //spriteBatch.DrawString(font, "X:" + Camera.Position.X + " ; Y:" + Camera.Position.Y, Vector2.Zero, Color.Black);
+            //spriteBatch.DrawString(font, "X:" + (Mouse.GetState().X - Camera.Position.X)+ " ; Y:" + (Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
+            spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
@@ -189,7 +205,7 @@ namespace BattleOfElementsTool
                 {
                     string[] temp = splitString[j].Split(',');
                     float X = float.Parse(temp[0]);
-                    float Y = float.Parse(temp[1]);
+                    float Y = float.Parse(temp[1]) * -1;
                     positions[i-readLines].Add(new Vector2(X, Y));
                 }
             }
@@ -203,11 +219,13 @@ namespace BattleOfElementsTool
                 string[] rectangleInfo = splitString[i].Split(':');
                 string[] position = rectangleInfo[0].Split(',');
                 string[] size = rectangleInfo[1].Split(',');
-                Rectangle rectangle = new Rectangle((int)float.Parse(position[0]), (int)float.Parse(position[1]), (int)float.Parse(size[0]), (int)float.Parse(size[1]));
-                rectangle.Size = new Point(rectangle.Width * SCALE, rectangle.Height * SCALE);
-                rectangle.Location = new Point(rectangle.X * SCALE, rectangle.Y * SCALE);
+                Rectangle rectangle = new Rectangle((int)float.Parse(position[0]) * SCALE, (int)float.Parse(position[1]) * -1 * SCALE, (int)float.Parse(size[0]) * SCALE, (int)float.Parse(size[1]) * SCALE);
+                //rectangle.Size = new Point(rectangle.Width * SCALE, rectangle.Height * SCALE);
+                //rectangle.Location = new Point(rectangle.X * SCALE, rectangle.Y * SCALE);
                 platformList.Add(new GameObject(rectangle, Color.Brown));
             }
+
+            //platformList.Add(new GameObject(new Rectangle(5, 5, 100, 100), Color.Red));
         }
     }
 }

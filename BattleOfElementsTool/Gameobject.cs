@@ -13,6 +13,7 @@ namespace BattleOfElementsTool
         private Rectangle hitBox;
         private Color color;
         private Texture2D tex;
+        private Vector2 origin;
 
 
         public GameObject(Rectangle hitBox, Color color)
@@ -20,11 +21,13 @@ namespace BattleOfElementsTool
             this.hitBox = hitBox;
             this.color = color;
             this.tex = Game1.RectangleTexture;
+            //origin = new Vector2(hitBox.Width / 2, hitBox.Height);
+            origin = Vector2.Zero;
         }
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, hitBox, color);
+            sb.Draw(tex, hitBox, null, color, 0f, origin, SpriteEffects.None, 0f);
             
         }
 

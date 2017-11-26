@@ -37,3 +37,9 @@
 /processorParam:TextureFormat=Color
 /build:Rectangle.png
 
+#begin SpriteFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:SpriteFont.spritefont
+
