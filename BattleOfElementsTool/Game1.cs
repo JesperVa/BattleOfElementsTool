@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using xnaInput = Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.IO;
 
 namespace BattleOfElementsTool
@@ -13,7 +14,7 @@ namespace BattleOfElementsTool
     public class Game1 : Game
     {
         
-        private readonly string FILEPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\Game21.txt";
+        private string FILEPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\Game0.txt";
 
         //Better to read out of %appdata%
         //private readonly string FILEPATH = @"E:\Spelmotordriven\BattleOfElementsTool\BattleOfElementsTool\Content\MatchHistory\Game10.txt";
@@ -52,6 +53,17 @@ namespace BattleOfElementsTool
         /// </summary>
         protected override void Initialize()
         {
+
+            OpenFileDialog FD = new OpenFileDialog();
+            FD.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\";
+
+            if(FD.ShowDialog() == DialogResult.OK)
+            {
+                if(!string.IsNullOrEmpty(FD.FileName))
+                {
+                    FILEPATH = FD.FileName;
+                }
+            }
 
             PixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             CircleTexture = Content.Load<Texture2D>("Circle");
@@ -104,23 +116,23 @@ namespace BattleOfElementsTool
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (xnaInput.GamePad.GetState(PlayerIndex.One).Buttons.Back == xnaInput.ButtonState.Pressed || xnaInput.Keyboard.GetState().IsKeyDown(xnaInput.Keys.Escape))
                 Exit();
-            KeyboardState state = Keyboard.GetState();
+            xnaInput.KeyboardState state = xnaInput.Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Left))
+            if (state.IsKeyDown(xnaInput.Keys.Left))
             {
                 Camera.Move(new Vector2(1, 0) * CAMERASPEED);
             }
-            if (state.IsKeyDown(Keys.Right))
+            if (state.IsKeyDown(xnaInput.Keys.Right))
             {
                 Camera.Move(new Vector2(-1, 0) * CAMERASPEED);
             }
-            if (state.IsKeyDown(Keys.Up))
+            if (state.IsKeyDown(xnaInput.Keys.Up))
             {
                 Camera.Move(new Vector2(0, 1) * CAMERASPEED);
             }
-            if (state.IsKeyDown(Keys.Down))
+            if (state.IsKeyDown(xnaInput.Keys.Down))
             {
                 Camera.Move(new Vector2(0, -1) * CAMERASPEED);
             }
@@ -156,7 +168,7 @@ namespace BattleOfElementsTool
 
             spriteBatch.Begin();
             //spriteBatch.DrawString(font, "X:" + Camera.Position.X + " ; Y:" + Camera.Position.Y, Vector2.Zero, Color.Black);
-            spriteBatch.DrawString(font, "X:" + (Mouse.GetState().X - Camera.Position.X) + " ; Y:" + (Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(font, "X:" + (xnaInput.Mouse.GetState().X - Camera.Position.X) + " ; Y:" + (xnaInput.Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
             spriteBatch.End();
 
 
