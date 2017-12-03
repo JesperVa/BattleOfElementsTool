@@ -166,10 +166,13 @@ namespace BattleOfElementsTool
 
             spriteBatch.End();
 
+
+#if DEBUG
             spriteBatch.Begin();
             //spriteBatch.DrawString(font, "X:" + Camera.Position.X + " ; Y:" + Camera.Position.Y, Vector2.Zero, Color.Black);
             spriteBatch.DrawString(font, "X:" + (xnaInput.Mouse.GetState().X - Camera.Position.X) + " ; Y:" + (xnaInput.Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
             spriteBatch.End();
+#endif
 
 
             base.Draw(gameTime);
