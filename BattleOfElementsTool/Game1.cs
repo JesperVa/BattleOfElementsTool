@@ -13,7 +13,7 @@ namespace BattleOfElementsTool
     public class Game1 : Game
     {
         
-        private readonly string FILEPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\Game9.txt";
+        private readonly string FILEPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\BattleOfElements\Game21.txt";
 
         //Better to read out of %appdata%
         //private readonly string FILEPATH = @"E:\Spelmotordriven\BattleOfElementsTool\BattleOfElementsTool\Content\MatchHistory\Game10.txt";
@@ -134,7 +134,7 @@ namespace BattleOfElementsTool
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Gray);
 
             var screenScale = GetScreenScale();
             var viewMatrix = Camera.GetTransform();
@@ -156,7 +156,7 @@ namespace BattleOfElementsTool
 
             spriteBatch.Begin();
             //spriteBatch.DrawString(font, "X:" + Camera.Position.X + " ; Y:" + Camera.Position.Y, Vector2.Zero, Color.Black);
-            //spriteBatch.DrawString(font, "X:" + (Mouse.GetState().X - Camera.Position.X)+ " ; Y:" + (Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(font, "X:" + (Mouse.GetState().X - Camera.Position.X) + " ; Y:" + (Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
             spriteBatch.End();
 
 

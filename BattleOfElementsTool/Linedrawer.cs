@@ -44,6 +44,7 @@ namespace BattleOfElementsTool
                     Primitives2D.DrawLine(sb, positions[i][j]* SCALE, positions[i][j + 1]* SCALE, playerColors[i], 5.0f);
                     temp = j;
                 }
+                //Last circle
                 sb.Draw(Game1.CircleTexture, positions[i][temp+1] * SCALE, null, playerColors[i], 0f, new Vector2(7.5f, 7.5f), 1f, SpriteEffects.None, 1f);
             }
         }
