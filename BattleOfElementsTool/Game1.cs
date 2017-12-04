@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using xnaInput = Microsoft.Xna.Framework.Input;
+using fx = System.Globalization.NumberStyles;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using System.Globalization;
 
 namespace BattleOfElementsTool
 {
@@ -170,7 +172,7 @@ namespace BattleOfElementsTool
 #if DEBUG
             spriteBatch.Begin();
             //spriteBatch.DrawString(font, "X:" + Camera.Position.X + " ; Y:" + Camera.Position.Y, Vector2.Zero, Color.Black);
-            spriteBatch.DrawString(font, "X:" + (xnaInput.Mouse.GetState().X - Camera.Position.X) + " ; Y:" + (xnaInput.Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
+            //spriteBatch.DrawString(font, "X:" + (xnaInput.Mouse.GetState().X - Camera.Position.X) + " ; Y:" + (xnaInput.Mouse.GetState().Y + Camera.Position.Y), Vector2.Zero, Color.Black);
             spriteBatch.End();
 #endif
 
@@ -213,14 +215,17 @@ namespace BattleOfElementsTool
                 positions[i] = new List<Vector2>();
             }
 
+            CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
             for (int i = readLines; i < amountOfPlayers + readLines; i++)
             {
                 splitString = mapInfo[i].Split(';');                
                 for (int j = 0; j < splitString.Length - 1; j++)
                 {
                     string[] temp = splitString[j].Split(',');
-                    float X = float.Parse(temp[0]);
-                    float Y = float.Parse(temp[1]) * -1;
+                    float X = float.Parse(temp[0], fx.Any, ci);
+                    float Y = float.Parse(temp[1], fx.Any, ci) * -1;
                     positions[i-readLines].Add(new Vector2(X, Y));
                 }
             }
@@ -234,7 +239,7 @@ namespace BattleOfElementsTool
                 string[] rectangleInfo = splitString[i].Split(':');
                 string[] position = rectangleInfo[0].Split(',');
                 string[] size = rectangleInfo[1].Split(',');
-                Rectangle rectangle = new Rectangle((int)float.Parse(position[0]) * SCALE, (int)float.Parse(position[1]) * -1 * SCALE, (int)float.Parse(size[0]) * SCALE, (int)float.Parse(size[1]) * SCALE);
+                Rectangle rectangle = new Rectangle((int)float.Parse(position[0], fx.Any, ci) * SCALE, (int)float.Parse(position[1], fx.Any, ci) * -1 * SCALE, (int)float.Parse(size[0], fx.Any, ci) * SCALE, (int)float.Parse(size[1], fx.Any, ci) * SCALE);
                 //rectangle.Size = new Point(rectangle.Width * SCALE, rectangle.Height * SCALE);
                 //rectangle.Location = new Point(rectangle.X * SCALE, rectangle.Y * SCALE);
                 platformList.Add(new GameObject(rectangle, Color.Brown));
