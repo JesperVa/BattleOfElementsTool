@@ -27,6 +27,8 @@ namespace BattleOfElementsTool
         private const int CAMERASPEED = 10;
 
 
+        xnaInput.KeyboardState keyboardState;
+
         List<GameObject> platformList;
         Camera2D Camera;
         GraphicsDeviceManager graphics;
@@ -138,6 +140,35 @@ namespace BattleOfElementsTool
             {
                 Camera.Move(new Vector2(0, -1) * CAMERASPEED);
             }
+            xnaInput.KeyboardState lastFrame = keyboardState;
+            keyboardState = xnaInput.Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(xnaInput.Keys.D1))
+            {
+                lineDrawer.NumberBeingDrawn = 0;
+            }
+            if (keyboardState.IsKeyDown(xnaInput.Keys.D2))
+            {
+                lineDrawer.NumberBeingDrawn = 1;
+            }
+            if (keyboardState.IsKeyDown(xnaInput.Keys.D3))
+            {
+                lineDrawer.NumberBeingDrawn = 2;
+            }
+            if (keyboardState.IsKeyDown(xnaInput.Keys.D4))
+            {
+                lineDrawer.NumberBeingDrawn = 3;
+            }
+
+            if(keyboardState.IsKeyUp(xnaInput.Keys.A) && lastFrame.IsKeyDown(xnaInput.Keys.A))
+            {
+                if(lineDrawer.DrawSingle)
+                    lineDrawer.DrawSingle = false;
+                else
+                    lineDrawer.DrawSingle = true;
+            }
+
+
 
             base.Update(gameTime);
         }
@@ -166,6 +197,14 @@ namespace BattleOfElementsTool
                 go.Draw(spriteBatch);
             }
 
+            spriteBatch.End();
+
+            //GUI
+            spriteBatch.Begin();
+            if(lineDrawer.DrawSingle)
+                spriteBatch.DrawString(font, "Currently drawing player number: " + (lineDrawer.NumberBeingDrawn + 1), Vector2.Zero, Color.Black);
+            else
+                spriteBatch.DrawString(font, "Currently drawing all players", Vector2.Zero, Color.Black);
             spriteBatch.End();
 
 
